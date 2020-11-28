@@ -2,7 +2,7 @@
   import Block from './components/Block.svelte';
   import BlockSchema from './constants/BlockSchema';
 
-  // Data structure that defines how the UI looks which each preset (array item) being 1/4th of the screen horizontally
+  document.title = 'Light Control App';
 </script>
 
 <style>
@@ -18,7 +18,7 @@
     padding: 0;
     font-family: ProductSans, Helvetica, sans-serif;
 
-    /* The resolution of our operating device */
+    /* The resolution of the screen that the pi will be rendering to */
     width: 800px;
     height: 480px;
   }

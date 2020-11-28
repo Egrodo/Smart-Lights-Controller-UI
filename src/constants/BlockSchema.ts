@@ -1,4 +1,3 @@
-import sendCommand from '../helpers/sendCommand';
 import type { PresetSchema } from '../types';
 
 const presets: PresetSchema[] = [
@@ -6,18 +5,18 @@ const presets: PresetSchema[] = [
     rowCount: 2,
     rows: [
       {
-        title: 'All Red',
-        bgColors: ['#D50000'],
-        textColor: '#FFFFFF',
-
-        onClick: () => sendCommand('All Red'),
-      },
-      {
         title: 'All Purple',
         bgColors: ['#9A00FF'],
         textColor: '#FFFFFF',
-
-        onClick: () => sendCommand('All Purple'),
+        buttonType: 'command',
+        commands: ['change underbed and lamp 1 and lamp 2 to purple'],
+      },
+      {
+        title: 'UnderRed',
+        bgColors: ['#D50000'],
+        textColor: '#FFFFFF',
+        buttonType: 'command',
+        commands: ['Turn off lamp 1 and lamp 2', 'change underbed to red'],
       },
     ],
   },
@@ -28,7 +27,8 @@ const presets: PresetSchema[] = [
         title: 'Lights On',
         bgColors: ['#EFEBD8'],
         textColor: '#414141',
-        onClick: () => sendCommand('Lights On'),
+        buttonType: 'command',
+        commands: ['Change bedroom lights to white'],
       },
     ],
   },
@@ -39,7 +39,8 @@ const presets: PresetSchema[] = [
         title: 'Lights Off',
         bgColors: ['#414141'],
         textColor: '#FFFFFF',
-        onClick: () => sendCommand('Lights On'),
+        buttonType: 'command',
+        commands: ['Turn off bedroom lights'],
       },
     ],
   },
@@ -50,7 +51,8 @@ const presets: PresetSchema[] = [
         title: 'Gaming',
         bgColors: ['#D50000', '#AA00AA', '#9A00FF'],
         textColor: '#FFFFFF',
-        onClick: () => sendCommand('Gaming'),
+        buttonType: 'command',
+        commands: ['Change lamp 1 and lamp 2 to purple', 'change underbed to red'],
       },
       {
         title: 'Custom',
@@ -65,7 +67,7 @@ const presets: PresetSchema[] = [
         ],
         gradientDirection: 'diagonal',
         textColor: '#FFFFFF',
-        onClick: () => {}, // TODO: WTF do I do here
+        buttonType: 'navigation',
       },
     ],
   },

@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import copy from 'rollup-plugin-copy';
+import svelteSVG from 'rollup-plugin-svelte-svg';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -68,6 +69,7 @@ export default {
     copy({
       targets: [{ src: 'public/ProductSans.tff', dest: 'public/build/ProductSans.tff' }],
     }),
+    svelteSVG(),
 
     // In dev mode, call `npm run start` once
     // the bundle has been generated

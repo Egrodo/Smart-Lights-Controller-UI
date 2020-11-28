@@ -1,17 +1,39 @@
 <script lang="ts">
-  import type { PresetSingle, PresetDouble } from '../types';
+  import genBackgroundString from '../helpers/genBackgroundString';
+  import type { PresetSchema } from '../types';
+  export let preset: PresetSchema;
 
-  export let preset: PresetSingle | PresetDouble;
-  // TODO: Extract data from preset to construct block
-  console.log(preset);
+  const hexColors = ['#FFCC00', '#000000']; // Setting as yellow-to-black gradient by default, should be overriden.
+  const blockCount = preset.rowCount;
+
+  const rows = preset.rows;
 </script>
 
 <style>
-  .Block {
+  .Main {
     height: 100%;
     width: 100%;
-    background-color: black;
+    display: grid;
+    grid-template-rows: repeat(1fr);
+    grid-gap: 0;
+  }
+
+  .row {
+    cursor: pointer;
+    height: 100%;
+  }
+
+  .title {
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
   }
 </style>
 
-<div class="Block">Block</div>
+<main class="Main">
+  {#each rows as row}
+    <div class="row" style="background: {genBackgroundString(row.bgColors, row.gradientDirection === 'diagonal')}">
+      <p class="title" style="color: {row.textColor}">{row.title}</p>
+    </div>
+  {/each}
+</main>

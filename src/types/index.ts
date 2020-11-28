@@ -1,18 +1,12 @@
 type BlockData = {
   title: string;
-  bgColor: string[];
+  bgColors: string[];
+  gradientDirection?: 'vertical' | 'diagonal';
   textColor: string;
   onClick: () => void;
 };
 
-export interface PresetSingle extends BlockData {
-  type: 'single';
-}
-
-export interface PresetDouble {
-  type: 'double';
-  first: BlockData;
-  second: BlockData;
-}
-
-export type PresetSchema = (PresetSingle | PresetDouble)[];
+export type PresetSchema = {
+  rowCount: number;
+  rows: Array<BlockData>;
+};

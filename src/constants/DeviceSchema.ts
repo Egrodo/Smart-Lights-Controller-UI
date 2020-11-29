@@ -7,17 +7,17 @@ const DeviceSchema: DeviceState = {
     {
       name: 'Lamp 1',
       on: true,
-      color: '#FFFFF0',
+      color: 'rgb(255, 255, 240)',
     },
     {
       name: 'Lamp 2',
       on: true,
-      color: '#FFFFF0',
+      color: 'rgb(255, 255, 240)',
     },
     {
       name: 'Underbed',
       on: true,
-      color: '#FFFFF0',
+      color: 'rgb(255, 255, 240)',
     },
   ],
 };

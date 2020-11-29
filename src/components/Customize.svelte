@@ -68,6 +68,9 @@
   }
 
   .rightHalf {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 1fr 1fr;
   }
 </style>
 
@@ -77,5 +80,7 @@
       <DeviceBlock {device} {handleSelect} {powerToggle} selected={$CurrentSelections.includes(device.name)} />
     {/each}
   </div>
-  <div class="rightHalf" />
+  <div class="rightHalf">
+    <ColorPickerBlock />
+  </div>
 </main>

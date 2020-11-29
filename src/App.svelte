@@ -11,7 +11,7 @@
   // Hopefully this will not happen often as the application should run continuously without restarting.
   onMount(() => {
     // Changing the color of lights also turns them on.
-    sendCommands('Change all bedroom lights to ivory'); // Ivory -> #FFFFF0
+    // sendCommands('Change all bedroom lights to ivory'); // Ivory -> #FFFFF0
   });
 </script>
 

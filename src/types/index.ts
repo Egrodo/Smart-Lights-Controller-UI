@@ -24,7 +24,7 @@ export type Pages = 'main' | 'customize';
 export type Device = {
   name: string; // Names are and must be unique.
   on: boolean;
-  color: string;
+  color: string; // Colors are represented throughout the app as rgb values, converted as needed.
 };
 
 export type DeviceState = {

@@ -67,7 +67,10 @@ export default {
       inlineSources: !production,
     }),
     copy({
-      targets: [{ src: 'public/ProductSans.tff', dest: 'public/build/ProductSans.tff' }],
+      targets: [
+        { src: 'public/ProductSans.tff', dest: 'public/build/ProductSans.tff' },
+        { src: 'public/assets/*', dest: 'public/build/assets/' },
+      ],
     }),
     svelteSVG(),
 

@@ -35,3 +35,14 @@ export type DeviceState = {
 // For use in a global store that keeps track of which devices are selected for modification at any given time
 // An array of device names
 export type CurrentSelections = string[];
+
+export type NearestColorReturn = {
+  distance: number;
+  name: string;
+  rgb: {
+    r: number;
+    b: number;
+    g: number;
+  };
+  value: string;
+};

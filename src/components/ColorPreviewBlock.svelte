@@ -1,8 +1,7 @@
 <script lang="ts">
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
-  export let selectedColor: string;
-  console.log(selectedColor);
+  export let selectedColor: string = 'rgb(255, 255, 255)';
 </script>
 
 <style>

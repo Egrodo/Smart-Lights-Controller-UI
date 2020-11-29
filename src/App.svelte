@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { NearestColorFn } from './stores';
   import sendCommands from './helpers/commandHandler';
+  import findNearestColor from './helpers/findNearestColor';
+  import CompatibleColors from './constants/CompatibleColors';
   import Router from './components/Router.svelte';
   import type { Pages } from './types';
 
@@ -12,6 +15,9 @@
   onMount(() => {
     // Changing the color of lights also turns them on.
     // sendCommands('Change all bedroom lights to ivory'); // Ivory -> #FFFFF0
+
+    // Setup the nearest color checker
+    $NearestColorFn = findNearestColor.from(CompatibleColors);
   });
 </script>
 
@@ -21,6 +27,10 @@
     font-style: normal;
     font-weight: 400;
     src: url('ProductSans.ttf') format('truetype');
+  }
+
+  :global(*) {
+    box-sizing: border-box;
   }
 
   :global(body) {

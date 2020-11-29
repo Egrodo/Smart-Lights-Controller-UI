@@ -1,20 +1,15 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
   import throttle from '../helpers/throttle';
+
+  export let setSelectedColor;
+
   const ColorPickerImgSrc = 'assets/ColorPicker.png';
   const pickerImg = new Image();
   pickerImg.src = ColorPickerImgSrc;
 
   let canvas: HTMLCanvasElement;
   let context: CanvasRenderingContext2D;
-
-  let isClickDown: boolean = false;
-  let selectedColor: string;
-
-  function setSelectedColor(color: string): void {
-    console.log(color);
-    selectedColor = color;
-  }
 
   const debouncedSetSelectedColor = throttle(setSelectedColor, 200);
 
@@ -71,7 +66,8 @@
 
 <style>
   .ColorPickerBlock {
-    border: 1px solid black;
+    border-bottom: 1px solid black;
+    grid-column: span 2;
   }
 
   canvas {

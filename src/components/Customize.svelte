@@ -50,6 +50,12 @@
       await commandHandler(`Turn on ${name}`);
     }
   }
+
+  let selectedColor: string;
+
+  function setSelectedColor(color: string): void {
+    selectedColor = color;
+  }
 </script>
 
 <style>
@@ -69,7 +75,7 @@
 
   .rightHalf {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 2fr 1fr 1fr;
   }
 </style>
@@ -81,6 +87,7 @@
     {/each}
   </div>
   <div class="rightHalf">
-    <ColorPickerBlock />
+    <ColorPickerBlock {setSelectedColor} />
+    <ColorPreviewBlock {selectedColor} />
   </div>
 </main>

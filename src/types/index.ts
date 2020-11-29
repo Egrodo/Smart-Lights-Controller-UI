@@ -18,3 +18,5 @@ export type Command = {
   converse: boolean;
   broadcast: boolean;
 };
+
+export type Pages = 'main' | 'customize';

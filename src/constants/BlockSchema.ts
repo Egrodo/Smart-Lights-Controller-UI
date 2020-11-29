@@ -28,7 +28,7 @@ const presets: PresetSchema[] = [
         bgColors: ['#EFEBD8'],
         textColor: '#414141',
         buttonType: 'command',
-        commands: ['Change bedroom lights to white'],
+        commands: ['Change bedroom lights to navajo white'],
       },
     ],
   },
@@ -55,7 +55,7 @@ const presets: PresetSchema[] = [
         commands: ['Change lamp 1 and lamp 2 to purple', 'change underbed to red'],
       },
       {
-        title: 'Custom',
+        title: 'More...',
         bgColors: [
           'rgba(213, 0, 0, 0.75)',
           'rgba(200, 0, 36, 0.75)',

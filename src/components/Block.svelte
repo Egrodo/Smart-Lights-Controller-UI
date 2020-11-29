@@ -5,6 +5,7 @@
   import type { PresetSchema } from '../types';
 
   export let preset: PresetSchema;
+  export let changePage: (arg: 'main' | 'customize') => void;
 
   const rows = preset.rows;
   const commmandByTitle = preset.rows.reduce((obj, row) => {
@@ -17,6 +18,7 @@
   let loadingBlockName = '';
 
   async function handleClick({ target }) {
+    if (isLoading) return;
     const buttonType = target.getAttribute('data-buttonType');
     if (buttonType === 'command') {
       const title = target.getAttribute('title');
@@ -29,6 +31,7 @@
       await commandHandler(...command);
       isLoading = false;
     } else if (buttonType === 'navigation') {
+      changePage('customize');
     }
   }
 </script>

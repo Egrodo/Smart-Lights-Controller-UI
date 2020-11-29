@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Block from './components/Block.svelte';
-  import BlockSchema from './constants/BlockSchema';
+  import Router from './components/Router.svelte';
+  import type { Pages } from './types';
 
   document.title = 'Light Control App';
+  const initPage: Pages = 'main';
 </script>
 
 <style>
@@ -33,7 +34,5 @@
 </style>
 
 <div class="App">
-  {#each BlockSchema as preset}
-    <Block {preset} />
-  {/each}
+  <Router {initPage} />
 </div>

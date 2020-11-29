@@ -2,15 +2,24 @@
   import Spinner from '../assets/LoaderIcon.svelte';
   import genBackgroundString from '../helpers/genBackgroundString';
   import commandHandler from '../helpers/commandHandler';
-  import type { PresetSchema } from '../types';
+  import composeCommands from '../helpers/composeCommands';
+  import { DeviceState } from '../stores';
+  import type { PresetSchema, PresetCommands, ComposedCommands, Device } from '../types';
+  import { onMount } from 'svelte';
 
   export let preset: PresetSchema;
   export let changePage: (arg: 'main' | 'customize') => void;
 
   const rows = preset.rows;
-  const commmandByTitle = preset.rows.reduce((obj, row) => {
-    if (row.commands === undefined) return obj;
-    obj[row.title] = row.commands;
+  const composedCommands: ComposedCommands = preset.rows.reduce((obj, row) => {
+    // Compose the necessary commands for each block.
+    if (row.buttonType !== 'command') {
+      return obj;
+    }
+
+    const formattedCommands = composeCommands(row.commands);
+    obj[row.title] = { rawCommands: row.commands, formattedCommands };
+
     return obj;
   }, {});
 
@@ -22,17 +31,39 @@
     const buttonType = target.getAttribute('data-buttonType');
     if (buttonType === 'command') {
       const title = target.getAttribute('title');
-      const command = commmandByTitle[title];
-      if (!command) {
+      const commands = composedCommands[title];
+
+      if (!commands) {
         throw new Error('Command not found by title');
       }
       isLoading = true;
       loadingBlockName = title;
-      await commandHandler(...command);
+
+      await commandHandler(...commands.formattedCommands);
+      updateState(commands.rawCommands);
       isLoading = false;
     } else if (buttonType === 'navigation') {
       changePage('customize');
     }
+  }
+
+  function updateState(rawCommands: PresetCommands) {
+    // Update the state to reflect the changes in colors here
+    const newState = $DeviceState;
+    const newDevices = [];
+    newState.devices.forEach((device) => {
+      // Is this device modified?
+      const modified = rawCommands.find((command) => command.names.includes(device.name));
+      if (modified) {
+        newDevices.push({
+          name: device.name,
+          on: modified.on,
+          color: modified.color || device.color,
+        });
+      }
+    });
+    newState.devices = newDevices;
+    $DeviceState = newState;
   }
 </script>
 

@@ -9,14 +9,31 @@ const presets: PresetSchema[] = [
         bgColors: ['#9A00FF'],
         textColor: '#FFFFFF',
         buttonType: 'command',
-        commands: ['change underbed and lamp 1 and lamp 2 to purple'],
+        // The names in a single command will be batched together automatically.
+        commands: [
+          {
+            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            on: true,
+            color: 'rgb(128,0,128)',
+          },
+        ],
       },
       {
         title: 'UnderRed',
         bgColors: ['#D50000'],
         textColor: '#FFFFFF',
         buttonType: 'command',
-        commands: ['Turn off lamp 1 and lamp 2', 'change underbed to red'],
+        commands: [
+          {
+            names: ['Lamp 1', 'Lamp 2'],
+            on: false,
+          },
+          {
+            names: ['Underbed'],
+            on: true,
+            color: 'rgb(237,10,63)',
+          },
+        ],
       },
     ],
   },
@@ -28,7 +45,13 @@ const presets: PresetSchema[] = [
         bgColors: ['#EFEBD8'],
         textColor: '#414141',
         buttonType: 'command',
-        commands: ['Change bedroom lights to navajo white'],
+        commands: [
+          {
+            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            on: true,
+            color: 'rgb(255,255,240)',
+          },
+        ],
       },
     ],
   },
@@ -40,7 +63,12 @@ const presets: PresetSchema[] = [
         bgColors: ['#414141'],
         textColor: '#FFFFFF',
         buttonType: 'command',
-        commands: ['Turn off bedroom lights'],
+        commands: [
+          {
+            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            on: false,
+          },
+        ],
       },
     ],
   },
@@ -52,7 +80,18 @@ const presets: PresetSchema[] = [
         bgColors: ['#D50000', '#AA00AA', '#9A00FF'],
         textColor: '#FFFFFF',
         buttonType: 'command',
-        commands: ['Change lamp 1 and lamp 2 to purple', 'change underbed to red'],
+        commands: [
+          {
+            names: ['Lamp 1', 'Lamp 2'],
+            on: true,
+            color: 'rgb(128,0,128)',
+          },
+          {
+            names: ['Underbed'],
+            on: true,
+            color: 'rgb(237,10,63)',
+          },
+        ],
       },
       {
         title: 'More...',

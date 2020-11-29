@@ -101,8 +101,6 @@
       deviceStateCopy.devices.push(device);
     });
 
-    console.log($DeviceState);
-    console.log(deviceStateCopy);
     $DeviceState = deviceStateCopy;
   }
 </script>

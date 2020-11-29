@@ -1,7 +1,7 @@
 <script lang="ts">
   import Block from './Block.svelte';
   import Customize from './Customize.svelte';
-  import BlockSchema from '../constants/BlockSchema';
+  import PresetSchema from '../constants/PresetSchema';
   import type { Pages } from '../types';
 
   export let initPage: Pages;
@@ -25,7 +25,7 @@
 
 {#if page === 'main'}
   <main class="Main">
-    {#each BlockSchema as preset}
+    {#each PresetSchema as preset}
       <Block {preset} {changePage} />
     {/each}
   </main>

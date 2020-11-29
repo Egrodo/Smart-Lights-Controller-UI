@@ -1,10 +1,23 @@
+export type PresetCommands = Array<{
+  names: string[]; // Name of the device
+  on: boolean; // Only used to determine if I should turn off a light
+  color?: string;
+}>;
+
+export type ComposedCommands = {
+  [blockTitle: string]: {
+    rawCommands: PresetCommands;
+    formattedCommands: string[];
+  };
+};
+
 type BlockData = {
   title: string;
   bgColors: string[];
   gradientDirection?: 'vertical' | 'diagonal';
   textColor: string;
   buttonType: 'command' | 'navigation';
-  commands?: string[];
+  commands?: PresetCommands;
 };
 
 export type PresetSchema = {

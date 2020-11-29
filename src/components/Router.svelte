@@ -12,10 +12,23 @@
   }
 </script>
 
+<style>
+  .Main {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 0;
+  }
+</style>
+
 {#if page === 'main'}
-  {#each BlockSchema as preset}
-    <Block {preset} {changePage} />
-  {/each}
+  <main class="Main">
+    {#each BlockSchema as preset}
+      <Block {preset} {changePage} />
+    {/each}
+  </main>
 {:else if page === 'customize'}
   <Customize {changePage} />
 {:else}

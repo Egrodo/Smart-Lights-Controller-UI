@@ -1,9 +1,18 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import sendCommands from './helpers/commandHandler';
   import Router from './components/Router.svelte';
   import type { Pages } from './types';
 
   document.title = 'Light Control App';
-  const initPage: Pages = 'main';
+  const initPage: Pages = 'customize';
+
+  // Turn on all lights when starting the application so as to sync the realworld with our initial store.
+  // Hopefully this will not happen often as the application should run continuously without restarting.
+  onMount(() => {
+    // Changing the color of lights also turns them on.
+    sendCommands('Change all bedroom lights to ivory'); // Ivory -> #FFFFF0
+  });
 </script>
 
 <style>
@@ -22,12 +31,10 @@
     /* The resolution of the screen that the pi will be rendering to */
     width: 800px;
     height: 480px;
+    user-select: none;
   }
 
   .App {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 0;
     height: 100%;
     width: 100%;
   }

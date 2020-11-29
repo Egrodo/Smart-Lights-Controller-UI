@@ -37,7 +37,7 @@
 </script>
 
 <style>
-  .Main {
+  .Block {
     height: 100%;
     width: 100%;
     display: grid;
@@ -63,7 +63,7 @@
 
 <svelte:options immutable={true} />
 
-<main class="Main" style="grid-template-rows: repeat({preset.rowCount}, 1fr)">
+<main class="Block" style="grid-template-rows: repeat({preset.rowCount}, 1fr)">
   {#each rows as row}
     <div
       class="row"

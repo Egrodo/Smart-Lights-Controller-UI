@@ -20,3 +20,18 @@ export type Command = {
 };
 
 export type Pages = 'main' | 'customize';
+
+export type Device = {
+  name: string; // Names are and must be unique.
+  on: boolean;
+  color: string;
+};
+
+export type DeviceState = {
+  devicesConnected: number;
+  devices: Device[];
+};
+
+// For use in a global store that keeps track of which devices are selected for modification at any given time
+// An array of device names
+export type CurrentSelections = string[];

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export default function (func: Function, ms: number): any {
   let isThrottled = false,
     savedArgs,

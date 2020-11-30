@@ -1,3 +1,4 @@
+// @ts-nocheck
 export default (delay: number, fn: Function) => {
   let timerId;
   return (...args) => {

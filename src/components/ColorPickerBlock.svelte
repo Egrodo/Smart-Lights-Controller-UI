@@ -4,7 +4,7 @@
 
   export let setSelectedColor;
 
-  const ColorPickerImgSrc = 'assets/ColorPicker.png';
+  const ColorPickerImgSrc = '../assets/ColorPicker.png';
   const pickerImg = new Image();
   pickerImg.src = ColorPickerImgSrc;
 

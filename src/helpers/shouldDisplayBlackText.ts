@@ -12,7 +12,7 @@ export default (rgbColor: string): boolean => {
   const luminesence = hsl.split('%,')[1].split('%')[0];
   const luminesenceNumber = Number(luminesence);
   if (Number.isNaN(luminesenceNumber)) {
-    console.error('Failed to get luminesence from color in shouldDisplayBlackText', hexColor, hsl);
+    console.error('Failed to get luminesence from color in shouldDisplayBlackText', rgbColor, hsl);
     return false;
   }
   // Anything with a luminesence brighter than 60% should have black text.

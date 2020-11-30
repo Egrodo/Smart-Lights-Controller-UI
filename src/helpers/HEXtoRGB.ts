@@ -1,3 +1,4 @@
+// @ts-nocheck
 // https://css-tricks.com/converting-color-spaces-in-javascript/
 export default function hexToRGB(h) {
   let r = 0,

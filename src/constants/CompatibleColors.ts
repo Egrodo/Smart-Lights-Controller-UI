@@ -1,4 +1,13 @@
-export default {
+// Any way to better type these?
+type ColorToRgbType = {
+  [colorName: string]: string;
+};
+
+type RgbToColorNameType = {
+  [rgbName: string]: string;
+};
+
+const CompatibleColors: ColorToRgbType = {
   White: 'rgb(255,255,255)',
   Black: 'rgb(0,0,0)',
   Red: 'rgb(237,10,63)',
@@ -44,7 +53,6 @@ export default {
   'Dark Magenta': 'rgb(139,0,139)',
   'Dark Olive Green': 'rgb(85,107,47)',
   'Dark Orange': 'rgb(255,140,0)',
-  'Dark Orchid': 'rgb(153,50,204)',
   'Dark Red': 'rgb(139,0,0)',
   'Dark Salmon': 'rgb(233,150,122)',
   'Dark Sea Green': 'rgb(143,188,143)',
@@ -93,7 +101,6 @@ export default {
   Maroon: 'rgb(195,33,72)',
   'Medium Aquamarine': 'rgb(102,205,170)',
   'Medium Blue': 'rgb(0,0,205)',
-  'Medium Orchid': 'rgb(186,85,211)',
   'Medium Purple': 'rgb(147,112,219)',
   'Medium Sea Green': 'rgb(60,179,113)',
   'Medium Slate Blue': 'rgb(123,104,238)',
@@ -110,7 +117,6 @@ export default {
   Olive: 'rgb(128,128,0)',
   'Olive Drab': 'rgb(107,142,35)',
   'Orange Red': 'rgb(255,69,0)',
-  Orchid: 'rgb(218,112,214)',
   'Pale Goldenrod': 'rgb(238,232,170)',
   'Pale Green': 'rgb(152,251,152)',
   'Pale Turquoise': 'rgb(175,238,238)',
@@ -479,7 +485,7 @@ export default {
   'Rocket Metallic': 'rgb(138,127,141)',
 };
 
-export const rgbToName = {
+export const rgbToColorName: RgbToColorNameType = {
   'rgb(255,255,255)': 'White',
   'rgb(0,0,0)': 'Floral White',
   'rgb(237,10,63)': 'Red',
@@ -524,7 +530,6 @@ export const rgbToName = {
   'rgb(139,0,139)': 'Dark Magenta',
   'rgb(85,107,47)': 'Dark Olive Green',
   'rgb(255,140,0)': 'Dark Orange',
-  'rgb(153,50,204)': 'Dark Orchid',
   'rgb(139,0,0)': 'Dark Red',
   'rgb(233,150,122)': 'Dark Salmon',
   'rgb(143,188,143)': 'Dark Sea Green',
@@ -572,7 +577,6 @@ export const rgbToName = {
   'rgb(195,33,72)': 'Maroon',
   'rgb(102,205,170)': 'Medium Aquamarine',
   'rgb(0,0,205)': 'Medium Blue',
-  'rgb(186,85,211)': 'Medium Orchid',
   'rgb(147,112,219)': 'Medium Purple',
   'rgb(60,179,113)': 'Medium Sea Green',
   'rgb(123,104,238)': 'Medium Slate Blue',
@@ -589,7 +593,6 @@ export const rgbToName = {
   'rgb(128,128,0)': 'Olive',
   'rgb(107,142,35)': 'Olive Drab',
   'rgb(255,69,0)': 'Orange Red',
-  'rgb(218,112,214)': 'Orchid',
   'rgb(238,232,170)': 'Pale Goldenrod',
   'rgb(152,251,152)': 'Mint Green',
   'rgb(175,238,238)': 'Pale Turquoise',
@@ -942,3 +945,4 @@ export const rgbToName = {
   'rgb(138,127,141)': 'Rocket Metallic',
 };
 
+export default CompatibleColors;

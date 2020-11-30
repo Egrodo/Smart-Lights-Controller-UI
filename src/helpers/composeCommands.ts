@@ -1,4 +1,4 @@
-import { rgbToName } from '../constants/CompatibleColors';
+import { rgbToColorName } from '../constants/CompatibleColors';
 import type { PresetCommands } from '../types';
 
 // Translate the data in PresetSchema to plaintext commands that can be fed to assistant-relay.
@@ -9,8 +9,8 @@ export default (commands: PresetCommands): string[] => {
 
   commands.forEach((command) => {
     const deviceNames = command.names;
-    if (command.on) {
-      const translatedColor = rgbToName[command.color];
+    if (command.on && command.color) {
+      const translatedColor = rgbToColorName[command.color];
       let currStr = 'Set ';
       deviceNames.forEach((deviceName, i) => {
         currStr += `${deviceName} `;

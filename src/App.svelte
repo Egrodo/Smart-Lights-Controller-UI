@@ -8,7 +8,7 @@
   import type { Pages } from './types';
 
   document.title = 'Light Control App';
-  const initPage: Pages = 'main';
+  const initPage: Pages = 'customize';
 
   // Turn on all lights when starting the application so as to sync the realworld with our initial store.
   // Hopefully this will not happen often as the application should run continuously without restarting.

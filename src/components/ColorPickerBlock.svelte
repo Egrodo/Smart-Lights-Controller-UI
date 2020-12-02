@@ -2,14 +2,14 @@
   import { onDestroy, onMount } from 'svelte';
   import throttle from '../helpers/throttle';
 
-  export let setSelectedColor;
+  export let setSelectedColor: Function;
 
   const ColorPickerImgSrc = '../assets/ColorPicker.png';
   const pickerImg = new Image();
   pickerImg.src = ColorPickerImgSrc;
 
   let canvas: HTMLCanvasElement;
-  let context: CanvasRenderingContext2D;
+  let context: CanvasRenderingContext2D | null;
 
   const debouncedSetSelectedColor = throttle(setSelectedColor, 200);
 
@@ -18,6 +18,7 @@
     pickerImg.width = canvas.width;
     // Draw the image to the canvas
     context = canvas.getContext('2d');
+    if (!context) throw new Error('Context undefined from canvas?');
     context.drawImage(pickerImg, 0, 0, canvas.width, canvas.height);
   };
 
@@ -28,14 +29,14 @@
 
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
-    const imgData = context.getImageData(x, y, 1, 1);
-    const red = imgData.data[0];
-    const green = imgData.data[1];
-    const blue = imgData.data[2];
+    const imgData = context?.getImageData(x, y, 1, 1);
+    const red = imgData?.data[0];
+    const green = imgData?.data[1];
+    const blue = imgData?.data[2];
     debouncedSetSelectedColor(`rgb(${red}, ${green}, ${blue})`);
   };
 
-  const canvasTouchMoveListener = (e: TouchEvent) => {
+  const canvasTouchMoveListener = (e: TouchEvent | MouseEvent) => {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width; // relationship bitmap vs. element for X
     const scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y
@@ -44,10 +45,10 @@
 
     const x = (touch.clientX - rect.left) * scaleX;
     const y = (touch.clientY - rect.top) * scaleY;
-    const imgData = context.getImageData(x, y, 1, 1);
-    const red = imgData.data[0];
-    const green = imgData.data[1];
-    const blue = imgData.data[2];
+    const imgData = context?.getImageData(x, y, 1, 1);
+    const red = imgData?.data[0];
+    const green = imgData?.data[1];
+    const blue = imgData?.data[2];
     debouncedSetSelectedColor(`rgb(${red}, ${green}, ${blue})`);
   };
 

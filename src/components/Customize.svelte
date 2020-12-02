@@ -7,6 +7,7 @@
   import ColorPickerBlock from './ColorPickerBlock.svelte';
   import ColorPreviewBlock from './ColorPreviewBlock.svelte';
   import ButtonBlock from './ButtonBlock.svelte';
+  import BrightnessBlock from './BrightnessBlock.svelte';
 
   import type { Device, NearestColorReturn, DeviceState as DeviceStateType, Pages } from '../types';
 
@@ -73,6 +74,10 @@
     selectedColor = nearestColor;
   }
 
+  function setBrightness(brightnessPercent: number): void {
+    console.log(`Setting brightness to ${brightnessPercent}.`);
+  }
+
   // Send commands to lights to do the needful
   async function submitColorChanges(): Promise<void> {
     // Apply selectedColor to CurrentSelections and modify the DeviceState
@@ -123,7 +128,7 @@
   .rightHalf {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2fr 1fr 1fr;
+    grid-template-rows: 2fr 0.5fr 0.5fr 1fr;
   }
 </style>
 
@@ -136,6 +141,7 @@
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
     <ColorPreviewBlock selectedColor={selectedColor.value} />
+    <BrightnessBlock {setBrightness} />
     <ButtonBlock
       bgColor="rgb(245, 57, 96)"
       text="Back"

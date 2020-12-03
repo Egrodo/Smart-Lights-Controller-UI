@@ -36,7 +36,7 @@
     debouncedSetSelectedColor(`rgb(${red}, ${green}, ${blue})`);
   };
 
-  const canvasTouchMoveListener = (e: TouchEvent | MouseEvent) => {
+  const canvasTouchMoveListener = (e: TouchEvent) => {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width; // relationship bitmap vs. element for X
     const scaleY = canvas.height / rect.height; // relationship bitmap vs. element for Y

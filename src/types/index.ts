@@ -38,6 +38,7 @@ export type Device = {
   name: string; // Names are and must be unique.
   on: boolean;
   color: string; // Colors are represented throughout the app as rgb values, converted as needed.
+  brightness: number; // A percentage 0-1.
 };
 
 export type DeviceState = {

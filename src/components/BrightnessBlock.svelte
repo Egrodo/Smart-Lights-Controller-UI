@@ -5,7 +5,6 @@
   const MOVER_WIDTH = 5;
   const DARKEST_SLIDER_COLOR = 60;
 
-  // TODO: Modify state to support this
   export let initialBrightness: number;
   export let setBrightness: Function;
 
@@ -25,9 +24,9 @@
   let moverDistance = 0;
 
   function touchDownOnMover() {
+    isMoverActive = true;
     document.addEventListener('touchend', touchUp);
     document.addEventListener('touchmove', onMove);
-    isMoverActive = true;
   }
 
   function touchUp() {
@@ -40,7 +39,7 @@
   function clickedTrack(e: TouchEvent) {
     const newDistance = e.touches[0].clientX - containerRef.offsetLeft;
     moverDistance = newDistance;
-    updateBgColor(moverDistance);
+    updateBgColor((moverDistance / containerRef.offsetWidth) * 100);
     touchDownOnMover();
   }
 
@@ -53,18 +52,17 @@
       newDistance = range[1];
     }
 
+    const newPercent = (moverDistance / containerRef.offsetWidth) * 100;
+
     // Move the mover
     moverDistance = newDistance;
-
-    updateBgColor(moverDistance);
+    updateBgColor(newPercent);
+    setBrightness(newPercent);
   }
 
-  function updateBgColor(moverDistance: number) {
-    // Re-calculate rgb values for background color effect
-    const percentDistance = (moverDistance / containerRef.offsetWidth) * 100;
-
-    // Calculate the number that is percentDistance between DARKEST_SLIDER_COLOR and the max rgb value, 255.
-    const rgbDistance = (percentDistance * (255 - DARKEST_SLIDER_COLOR)) / 100 + DARKEST_SLIDER_COLOR;
+  function updateBgColor(percent: number) {
+    // Calculate the number that is percent between DARKEST_SLIDER_COLOR and the max rgb value, 255.
+    const rgbDistance = (percent * (255 - DARKEST_SLIDER_COLOR)) / 100 + DARKEST_SLIDER_COLOR;
     r = rgbDistance;
     g = rgbDistance;
     b = rgbDistance;
@@ -72,6 +70,18 @@
 
   onMount(() => {
     range[1] = containerRef.offsetWidth - MOVER_WIDTH;
+
+    // Handle initialBrightness
+    if (initialBrightness < 0 || initialBrightness > 1) {
+      console.error('initialBrightness prop passed to BrightnessBlock out of range 0-1');
+      initialBrightness = 1;
+    }
+    // Set the initialBrightness by calculating what pixel value initialBrightness% is of containerRef.offsetWidth
+
+    let initBrigtnessPixels = initialBrightness * containerRef.offsetWidth;
+    if (initBrigtnessPixels >= containerRef.offsetWidth - MOVER_WIDTH) initBrigtnessPixels -= MOVER_WIDTH;
+    moverDistance = initBrigtnessPixels;
+    updateBgColor(initialBrightness * 100);
   });
 
   onDestroy(() => {

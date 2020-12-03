@@ -68,29 +68,97 @@
     value: 'rgb(255, 255, 240)',
   };
 
+  let selectedColorChanged: boolean = false;
+
+  let brightness: number = 1;
+  // Keeps track of if this attribute has changed since the user last submitted/navigated here
+  let brightnessChanged: boolean = false;
+
   function setSelectedColor(pickedColor: string): void {
     // Find the nearest color to pickedColor in CompatibleColors
     const nearestColor: NearestColorReturn = $NearestColorFn(pickedColor);
     selectedColor = nearestColor;
+    selectedColorChanged = true;
   }
 
   function setBrightness(brightnessPercent: number): void {
-    console.log(`Setting brightness to ${brightnessPercent}.`);
+    brightness = brightnessPercent;
+    brightnessChanged = true;
   }
 
-  // Send commands to lights to do the needful
-  async function submitColorChanges(): Promise<void> {
-    // Apply selectedColor to CurrentSelections and modify the DeviceState
+  async function submitChanges(): Promise<void> {
+    // Apply selectedColor and brightness to CurrentSelections and modify the DeviceState
 
     if ($CurrentSelections.length === 0) {
       console.log('No devices selected');
       return; // nothing to do
     }
 
-    // Change the color
+    if (selectedColorChanged) {
+      await submitColorChanges();
+    }
+    if (brightnessChanged) {
+      await submitBrightnessChanges();
+    }
+  }
+
+  async function submitBrightnessChanges(): Promise<void> {
+    const applicableDevices: string[] = [];
     for await (const selectedDevice of $CurrentSelections) {
-      console.log(`Applying ${selectedColor.name} to ${selectedDevice}`);
-      await commandHandler(`Set ${selectedDevice} to ${selectedColor.name}`);
+      applicableDevices.push(selectedDevice);
+    }
+
+    // At least one device will always be applicable because of the $CurrentSelections check in submitChanges
+    if (applicableDevices.length === 1) {
+      await commandHandler(`Set ${applicableDevices[0]} to ${Math.round(brightness)}%`);
+    } else {
+      let command = 'Set';
+      applicableDevices.forEach((device, i) => {
+        command += ` ${device}`;
+        if (applicableDevices.length - 1 !== i) {
+          command += ' and';
+        }
+      });
+      command += ` to ${Math.round(brightness)}%`;
+      await commandHandler(command);
+    }
+
+    // Update the store
+    const deviceStateCopy: DeviceStateType = {
+      devicesConnected: $DeviceState.devicesConnected,
+      devices: [],
+    };
+
+    $DeviceState.devices.forEach((device) => {
+      if ($CurrentSelections.includes(device.name)) {
+        device.brightness = brightness;
+      }
+      deviceStateCopy.devices.push(device);
+    });
+
+    $DeviceState = deviceStateCopy;
+  }
+
+  // Send commands to lights to do the needful
+  async function submitColorChanges(): Promise<void> {
+    const applicableDevices: string[] = [];
+    for await (const selectedDevice of $CurrentSelections) {
+      applicableDevices.push(selectedDevice);
+    }
+
+    // At least one device will always be applicable because of the $CurrentSelections check in submitChanges
+    if (applicableDevices.length === 1) {
+      await commandHandler(`Set ${applicableDevices[0]} to ${selectedColor.name}`);
+    } else {
+      let command = 'Set';
+      applicableDevices.forEach((device, i) => {
+        command += ` ${device}`;
+        if (applicableDevices.length - 1 !== i) {
+          command += ' and';
+        }
+      });
+      command += ` to ${selectedColor.name}`;
+      await commandHandler(command);
     }
 
     // Update the store
@@ -141,7 +209,7 @@
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
     <ColorPreviewBlock selectedColor={selectedColor.value} />
-    <BrightnessBlock {setBrightness} />
+    <BrightnessBlock {setBrightness} initialBrightness={1} />
     <ButtonBlock
       bgColor="rgb(245, 57, 96)"
       text="Back"
@@ -150,6 +218,6 @@
         clearSelect();
       }}
       customStyle="border-right: 1px solid black" />
-    <ButtonBlock bgColor="rgb(14, 173, 105)" text="Submit" onClick={submitColorChanges} />
+    <ButtonBlock bgColor="rgb(14, 173, 105)" text="Submit" onClick={submitChanges} />
   </div>
 </main>

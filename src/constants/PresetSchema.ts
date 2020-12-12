@@ -47,7 +47,7 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
             on: true,
             color: 'rgb(255,255,240)',
           },
@@ -65,7 +65,7 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
             on: false,
           },
         ],

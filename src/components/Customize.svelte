@@ -94,11 +94,11 @@
       return; // nothing to do
     }
 
-    if (selectedColorChanged) {
-      await submitColorChanges();
-    }
     if (brightnessChanged) {
       await submitBrightnessChanges();
+    }
+    if (selectedColorChanged) {
+      await submitColorChanges();
     }
   }
 

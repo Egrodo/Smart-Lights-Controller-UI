@@ -1,7 +1,8 @@
 <script lang="ts">
-  import Spinner from '../assets/LoaderIcon.svelte';
-  import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
-  import type { Device } from '../types';
+  import { IsLoadingLock } from "../stores";
+  import Spinner from "../assets/LoaderIcon.svelte";
+  import shouldDisplayBlackText from "../helpers/shouldDisplayBlackText";
+  import type { Device } from "../types";
 
   export let handleSelect: (name: string) => void;
   export let powerToggle: (name: string) => Promise<void>;
@@ -13,12 +14,15 @@
   $: device_on = device.on;
   $: device_color = device.color;
 
-  let isLoadingPower = false;
+  let isLoadingLocal = false;
 
   async function handleOnOff() {
-    isLoadingPower = true;
+    if ($IsLoadingLock === true) return;
+    isLoadingLocal = true;
+    $IsLoadingLock = true;
     await powerToggle(device_name);
-    isLoadingPower = false;
+    $IsLoadingLock = false;
+    isLoadingLocal = false;
   }
 </script>
 
@@ -69,12 +73,18 @@
 </style>
 
 <main class="DeviceBlock">
-  <div class="topBlock" on:click={() => handleSelect(device_name)} style="background: {selected ? '#FAFFAE' : 'white'}">
+  <div
+    class="topBlock"
+    on:click={() => handleSelect(device_name)}
+    style="background: {selected ? '#FAFFAE' : 'white'}">
     <h1>{device_name}</h1>
     <h3>{selected ? 'Selected' : 'Select for modification'}</h3>
   </div>
-  <div class="onOffBtn" on:click={handleOnOff} style="background: {device_on ? '#0EAD69' : '#F53960'}">
-    {#if isLoadingPower === true}
+  <div
+    class="onOffBtn"
+    on:click={handleOnOff}
+    style="background: {device_on ? '#0EAD69' : '#F53960'}">
+    {#if isLoadingLocal === true}
       <Spinner width="50px" fill="white" />
     {:else}{device_on ? 'On' : 'Off'}{/if}
   </div>

@@ -3,17 +3,16 @@
   import genBackgroundString from '../helpers/genBackgroundString';
   import commandHandler from '../helpers/commandHandler';
   import composeCommands from '../helpers/composeCommands';
-  import { DeviceState } from '../stores';
+  import { DeviceState, IsLoadingLock } from '../stores';
   import type { PresetSchema, PresetCommands, ComposedCommands, Device } from '../types';
-  import { onMount } from 'svelte';
 
   export let preset: PresetSchema;
   export let changePage: (arg: 'main' | 'customize') => void;
 
   const rows = preset.rows;
-  const composedCommands: ComposedCommands = preset.rows.reduce((obj, row) => {
+  const composedCommands: ComposedCommands = preset.rows.reduce((obj: ComposedCommands, row): ComposedCommands => {
     // Compose the necessary commands for each block.
-    if (row.buttonType !== 'command') {
+    if (row.buttonType !== 'command' || row.commands == null) {
       return obj;
     }
 
@@ -23,25 +22,30 @@
     return obj;
   }, {});
 
-  let isLoading = false;
+  let isLoadingLocal = false;
   let loadingBlockName = '';
 
-  async function handleClick({ target }) {
-    if (isLoading) return;
+  async function handleClick({ target }: { target: HTMLDivElement }) {
+    if ($IsLoadingLock) return;
     const buttonType = target.getAttribute('data-buttonType');
     if (buttonType === 'command') {
       const title = target.getAttribute('title');
+      if (title == null) {
+        throw new Error('Block name missing');
+      }
       const commands = composedCommands[title];
 
       if (!commands) {
         throw new Error('Command not found by title');
       }
-      isLoading = true;
+      isLoadingLocal = true;
+      $IsLoadingLock = true;
       loadingBlockName = title;
 
       await commandHandler(...commands.formattedCommands);
       updateState(commands.rawCommands);
-      isLoading = false;
+      isLoadingLocal = false;
+      $IsLoadingLock = false;
     } else if (buttonType === 'navigation') {
       changePage('customize');
     }
@@ -50,7 +54,7 @@
   function updateState(rawCommands: PresetCommands) {
     // Update the state to reflect the changes in colors here
     const newState = $DeviceState;
-    const newDevices = [];
+    const newDevices: Device[] = [];
     newState.devices.forEach((device) => {
       // Is this device modified?
       const modified = rawCommands.find((command) => command.names.includes(device.name));
@@ -59,6 +63,7 @@
           name: device.name,
           on: modified.on,
           color: modified.color || device.color,
+          brightness: device.brightness,
         });
       }
     });
@@ -105,7 +110,7 @@
       on:click={handleClick}>
       <p class="title" style="color: {row.textColor}">{row.title}</p>
       <div class="loaderContainer">
-        {#if loadingBlockName === row.title && isLoading === true}
+        {#if loadingBlockName === row.title && isLoadingLocal === true}
           <Spinner width="100px" fill={row.textColor} />
         {/if}
       </div>

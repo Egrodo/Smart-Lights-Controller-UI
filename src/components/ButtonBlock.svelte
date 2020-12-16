@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { IsLoadingLock } from '../stores';
   import Spinner from '../assets/LoaderIcon.svelte';
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
@@ -8,13 +9,16 @@
 
   export let onClick: () => void;
 
-  let amAwaiting = false;
+  let isLoadingLocal = false;
 
   // For execution of the onClick incase it's a promise that needs awaiting.
   async function onClickWrapper() {
-    amAwaiting = true;
+    if ($IsLoadingLock === true) return;
+    $IsLoadingLock = true;
+    isLoadingLocal = true;
     await onClick();
-    amAwaiting = false;
+    $IsLoadingLock = false;
+    isLoadingLocal = false;
   }
 </script>
 
@@ -33,7 +37,7 @@
   class="ButtonBlock"
   on:click={onClickWrapper}
   style="background: {bgColor}; color: {shouldDisplayBlackText(bgColor) ? 'black' : 'white'}; {customStyle}">
-  {#if amAwaiting === true}
+  {#if isLoadingLocal === true}
     <Spinner width="50px" fill="white" />
   {:else}{text}{/if}
 </div>

@@ -14,9 +14,12 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
+const { my_ip } = require('./client_secret.json');
+
 app.use(logger('dev'));
 app.use(express.json());
-const allowedOrigins = ['http://localhost:5000', '174.138.58.238', '127.0.0.1'];
+
+const allowedOrigins = ['http://localhost:5000', my_ip];
 app.use(
   cors({
     origin: (origin, cb) => {

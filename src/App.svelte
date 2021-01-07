@@ -29,7 +29,7 @@
     font-family: "ProductSans";
     font-style: normal;
     font-weight: 400;
-    src: url("ProductSans.ttf") format("truetype");
+    src: url("/ProductSans.ttf") format("truetype");
   }
 
   :global(*) {

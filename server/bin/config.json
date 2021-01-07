@@ -47,16 +47,6 @@
   ],
   "responses": [
     {
-      "command": "Set Lamp 1 and Lamp 2 and Underbed and Nanoleaf to Ivory",
-      "response": "",
-      "timestamp": 1609825076606
-    },
-    {
-      "command": "Set Lamp 1 and Lamp 2 and Underbed and Nanoleaf to Ivory",
-      "response": "",
-      "timestamp": 1609999045663
-    },
-    {
       "command": "Set Lamp 1 and Lamp 2 to Purple",
       "response": "",
       "timestamp": 1609999049800
@@ -70,6 +60,16 @@
       "command": "Set Lamp 1 and Lamp 2 to Snow",
       "response": "",
       "timestamp": 1609999062732
+    },
+    {
+      "command": "Set all bedroom lights to 100%",
+      "response": "",
+      "timestamp": 1609999403171
+    },
+    {
+      "command": "Change all bedroom lights to ivory",
+      "response": "",
+      "timestamp": 1609999403124
     }
   ],
   "releaseChannel": "beta",

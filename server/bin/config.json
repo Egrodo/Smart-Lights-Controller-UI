@@ -49,27 +49,27 @@
     {
       "command": "Set Lamp 1 and Lamp 2 and Underbed and Nanoleaf to Ivory",
       "response": "",
-      "timestamp": 1609825067048
-    },
-    {
-      "command": "Set Lamp 1 and Lamp 2 and Underbed to Purple",
-      "response": "",
-      "timestamp": 1609825069494
-    },
-    {
-      "command": "Turn off Lamp 1 and Lamp 2 ",
-      "response": "",
-      "timestamp": 1609825072138
-    },
-    {
-      "command": "Set Underbed to Red",
-      "response": "",
-      "timestamp": 1609825073891
+      "timestamp": 1609825076606
     },
     {
       "command": "Set Lamp 1 and Lamp 2 and Underbed and Nanoleaf to Ivory",
       "response": "",
-      "timestamp": 1609825076606
+      "timestamp": 1609999045663
+    },
+    {
+      "command": "Set Lamp 1 and Lamp 2 to Purple",
+      "response": "",
+      "timestamp": 1609999049800
+    },
+    {
+      "command": "Set Underbed to Red",
+      "response": "",
+      "timestamp": 1609999051694
+    },
+    {
+      "command": "Set Lamp 1 and Lamp 2 to Snow",
+      "response": "",
+      "timestamp": 1609999062732
     }
   ],
   "releaseChannel": "beta",

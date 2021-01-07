@@ -16,10 +16,11 @@ const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-const allowedOrigins = ['localhost', '174.138.58.238', '127.0.0.1'];
+const allowedOrigins = ['http://localhost:5000', '174.138.58.238', '127.0.0.1'];
 app.use(
   cors({
     origin: (origin, cb) => {
+      console.log('Request from: ', origin);
       if (!origin) return cb(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
         const msg = 'The CORS policy for this site does not allow access from the specified Origin.';

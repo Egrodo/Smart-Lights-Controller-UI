@@ -1,5 +1,7 @@
 /node_modules/
 /server/node_modules/
+/server/bin/audio-responses/
 /public/build/
+/out/
 
 .DS_Store

@@ -1,12 +1,12 @@
 const createError = require('http-errors');
-const cron = require("node-cron");
+const cron = require('node-cron');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const {initializeServer, isUpdateAvailable} = require('./helpers/server');
+const { initializeServer, isUpdateAvailable } = require('./helpers/server');
 
 const serverRouter = require('./routes/server');
 const castRouter = require('./routes/cast');
@@ -16,40 +16,53 @@ const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(cors({optionsSuccessStatus: 200}));
+const allowedOrigins = ['localhost', '174.138.58.238', '127.0.0.1'];
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return cb(new Error(msg), false);
+      }
+      return cb(null, true);
+    },
+    optionsSuccessStatus: 200,
+  }),
+);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './views')));
 
 global.assistants = {};
 
-cron.schedule("0 1 * * *", function() {
-  if(isUpdateAvailable) console.log(`An update is available. Please visit https://github.com/greghesp/assistant-relay/releases`);
+cron.schedule('0 1 * * *', function () {
+  if (isUpdateAvailable)
+    console.log(`An update is available. Please visit https://github.com/greghesp/assistant-relay/releases`);
 });
 
 (async function () {
   try {
     await initializeServer();
   } catch (e) {
-    console.error("ERROR: ", e);
+    console.error('ERROR: ', e);
     process.exit();
   }
 })();
 
-
 app.use('/server', serverRouter);
 app.use('/cast', castRouter);
 app.use('/', indexRouter);
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
-  console.log(req.body, req.query)
-  console.log(err)
+  console.log(req.body, req.query);
+  console.log(err);
 });
 
 module.exports = app;

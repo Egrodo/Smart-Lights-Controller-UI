@@ -5,7 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-
+const rateLimit = require('express-rate-limit');
 const { initializeServer, isUpdateAvailable } = require('./helpers/server');
 
 const serverRouter = require('./routes/server');
@@ -16,6 +16,12 @@ const app = express();
 
 const { my_ip } = require('./client_secret.json');
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 

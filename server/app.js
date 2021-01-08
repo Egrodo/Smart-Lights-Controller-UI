@@ -25,7 +25,7 @@ app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5000', my_ip];
+const allowedOrigins = [my_ip];
 app.use(
   cors({
     origin: (origin, cb) => {

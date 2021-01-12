@@ -10,6 +10,7 @@
   import BrightnessBlock from './BrightnessBlock.svelte';
 
   import type { Device, NearestColorReturn, DeviceState as DeviceStateType, Pages } from '../types';
+import { onMount } from 'svelte';
 
   export let changePage: (newPage: Pages) => void;
 
@@ -176,6 +177,28 @@
 
     $DeviceState = deviceStateCopy;
   }
+
+  function goBack() {
+    changePage('main');
+    clearSelect();
+  }
+
+  // On mount start a timer that listens for any touches and if none are detected for 60s change back to home page.
+  onMount(() => {
+    let lastInteracted = Date.now();
+    function restartTimer() {
+      lastInteracted = Date.now();
+    }
+    document.addEventListener('touchstart', restartTimer);
+    const timer = window.setInterval(() => {
+      const currTime = Date.now();
+      if (currTime - lastInteracted > 60 * 1000) {
+        document.removeEventListener('touchstart', restartTimer);
+        window.clearInterval(timer);
+        goBack();
+      }
+    }, 5000)
+  });
 </script>
 
 <style>
@@ -213,10 +236,7 @@
     <ButtonBlock
       bgColor="rgb(245, 57, 96)"
       text="Back"
-      onClick={() => {
-        changePage('main');
-        clearSelect();
-      }}
+      onClick={goBack}
       customStyle="border-right: 1px solid black" />
     <ButtonBlock bgColor="rgb(14, 173, 105)" text="Submit" onClick={submitChanges} />
   </div>

@@ -16,6 +16,19 @@
   onMount(() => {
     // Setup the nearest color checker
     $NearestColorFn = findNearestColor.from(CompatibleColors);
+
+    let lastInteracted = Date.now();
+    function maybeEatTouch(e: TouchEvent) {
+      const currTime = Date.now();
+      console.log(currTime, lastInteracted);
+      if (currTime - lastInteracted > 60 * 1000) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      lastInteracted = currTime;
+    }
+
+    document.addEventListener('touchend', maybeEatTouch);
   });
 </script>
 

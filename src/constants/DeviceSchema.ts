@@ -22,12 +22,12 @@ const DeviceSchema: DeviceState = {
       color: 'rgb(255, 255, 240)',
       brightness: 1,
     },
-    {
-      name: 'Nanoleaf',
-      on: true,
-      color: 'rgb(255, 255, 240)',
-      brightness: 1,
-    },
+    // {
+    //   name: 'Nanoleaf',
+    //   on: true,
+    //   color: 'rgb(255, 255, 240)',
+    //   brightness: 1,
+    // },
   ],
 };
 

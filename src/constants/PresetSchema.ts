@@ -11,8 +11,7 @@ const presets: PresetSchema[] = [
         // The names in a single command will be batched together automatically.
         commands: [
           {
-            // names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
-            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
             on: true,
             color: 'rgb(128,0,128)', // `color` must be a value that is in CompatibleColors.ts
           },
@@ -25,8 +24,7 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            // names: ['Lamp 1', 'Lamp 2', 'Nanoleaf'],
-            names: ['Lamp 1', 'Lamp 2'],
+            names: ['Lamp 1', 'Lamp 2', 'Nanoleaf'],
             on: false,
           },
           {
@@ -48,9 +46,7 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            // names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
-            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
-
+            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
             on: true,
             color: 'rgb(255,255,240)',
           },
@@ -68,8 +64,7 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            // names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
-            names: ['Lamp 1', 'Lamp 2', 'Underbed'],
+            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
             on: false,
           },
         ],
@@ -95,11 +90,11 @@ const presets: PresetSchema[] = [
             on: true,
             color: 'rgb(237,10,63)',
           },
-          // {
-          //   names: ['Nanoleaf'],
-          //   on: true,
-          //   color: 'rgb(58,166,85)',
-          // },
+          {
+            names: ['Nanoleaf'],
+            on: true,
+            color: 'rgb(58,166,85)',
+          },
         ],
       },
       {

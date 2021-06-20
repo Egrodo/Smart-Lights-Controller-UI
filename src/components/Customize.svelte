@@ -10,7 +10,7 @@
   import BrightnessBlock from './BrightnessBlock.svelte';
 
   import type { Device, NearestColorReturn, DeviceState as DeviceStateType, Pages } from '../types';
-import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
   export let changePage: (newPage: Pages) => void;
 
@@ -74,7 +74,7 @@ import { onMount } from 'svelte';
   let brightness: number = 1;
   // Keeps track of if this attribute has changed since the user last submitted/navigated here
   let brightnessChanged: boolean = false;
-
+  
   function setSelectedColor(pickedColor: string): void {
     // Find the nearest color to pickedColor in CompatibleColors
     const nearestColor: NearestColorReturn = $NearestColorFn(pickedColor);
@@ -94,6 +94,9 @@ import { onMount } from 'svelte';
       console.log('No devices selected');
       return; // nothing to do
     }
+
+    // TODO: Just checking if the brightness was changed *this* time isn't reliable
+    // because it doesn't take into account previous brightness changes. It shouldn't always default to 1.
 
     if (brightnessChanged) {
       await submitBrightnessChanges();
@@ -232,7 +235,7 @@ import { onMount } from 'svelte';
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
     <ColorPreviewBlock selectedColor={selectedColor.value} />
-    <BrightnessBlock {setBrightness} initialBrightness={1} />
+    <BrightnessBlock {setBrightness} initialBrightness={brightness} />
     <ButtonBlock
       bgColor="rgb(245, 57, 96)"
       text="Back"

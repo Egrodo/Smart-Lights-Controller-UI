@@ -1,8 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { NearestColorFn } from "./stores";
-  import findNearestColor from "./helpers/findNearestColor";
-  import CompatibleColors from "./constants/CompatibleColors";
   import Router from "./components/Router.svelte";
   import type { Pages } from "./types";
 
@@ -14,13 +11,9 @@
   // Turn on all lights when starting the application so as to sync the realworld with our initial store.
   // Hopefully this will not happen often as the application should run continuously without restarting.
   onMount(() => {
-    // Setup the nearest color checker
-    $NearestColorFn = findNearestColor.from(CompatibleColors);
-
     let lastInteracted = Date.now();
     function maybeEatTouch(e: TouchEvent) {
       const currTime = Date.now();
-      console.log(currTime, lastInteracted);
       if (currTime - lastInteracted > 60 * 1000) {
         e.preventDefault();
         e.stopPropagation();

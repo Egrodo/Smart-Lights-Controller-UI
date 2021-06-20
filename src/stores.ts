@@ -8,10 +8,5 @@ export const DeviceState: Writable<DeviceStateType> = writable(InitialDeviceStat
 
 export const CurrentSelections: Writable<CurrentSelectionsType> = writable([]);
 
-// This should be readable but I cannot figure out how to define it from elsewhere
-export const NearestColorFn: Writable<Function> = writable(() => {
-  throw new Error('NearestColorFn used before it was defined');
-});
-
 // Indicates whether something is currently loading so as to block user from pressing something else too fast.
 export const IsLoadingLock: Writable<boolean> = writable(false);

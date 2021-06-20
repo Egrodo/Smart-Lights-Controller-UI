@@ -2,8 +2,8 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "preserveConstEnums": true,
-    "inlineSourceMap": true,
     "allowJs": true,
+    "sourceMap": true,
     "noImplicitAny": true,
     "strictNullChecks": true
   },

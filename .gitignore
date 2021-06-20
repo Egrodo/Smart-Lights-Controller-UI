@@ -1,7 +1,5 @@
 /node_modules/
-/server/node_modules/
-/server/bin/audio-responses/
-/server/client_secret.json
+/src/constants/index.ts
 /public/build/
 /out/
 

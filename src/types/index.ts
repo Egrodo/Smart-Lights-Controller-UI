@@ -1,14 +1,33 @@
-export type PresetCommands = Array<{
-  names: string[]; // Name of the device
+export enum Entities {
+  Lamp1 = 'light.bedroom_lamp_1',
+  Lamp2 = 'light.bedroom_lamp_2',
+  Nanoleaf = 'light.nanoleaf_light_panels_5a_5d_b7',
+  Underbed = 'light.underbed',
+}
+
+export enum Areas {
+  Bedroom = 'bedroom',
+}
+
+export type Command = {
+  names: (Entities | Areas)[]; // Name of the device
+  type: 'entity' | 'area';
   on: boolean; // Only used to determine if I should turn off a light
-  color?: string;
-}>;
+  color?: [number, number, number];
+  brightness?: number; // percentage
+};
+
+export type FormBody = {
+  area_id?: Areas;
+  entity_id?: Entities;
+  rgb_color?: [number, number, number];
+  brightness?: number; // Between 0-255
+};
+
+export type PresetCommands = Array<Command>;
 
 export type ComposedCommands = {
-  [blockTitle: string]: {
-    rawCommands: PresetCommands;
-    formattedCommands: string[];
-  };
+  [blockTitle: string]: PresetCommands;
 };
 
 type BlockData = {
@@ -25,19 +44,13 @@ export type PresetSchema = {
   rows: Array<BlockData>;
 };
 
-export type Command = {
-  user: string;
-  command: string;
-  converse: boolean;
-  broadcast: boolean;
-};
-
 export type Pages = 'main' | 'customize';
 
 export type Device = {
-  name: string; // Names are and must be unique.
+  name: Entities; // Names are and must be unique.
+  friendlyName: string; // The name that's rendered viewable.
   on: boolean;
-  color: string; // Colors are represented throughout the app as rgb values, converted as needed.
+  color: [number, number, number]; // rgb
   brightness: number; // A percentage 0-1.
 };
 
@@ -48,15 +61,4 @@ export type DeviceState = {
 
 // For use in a global store that keeps track of which devices are selected for modification at any given time
 // An array of device names
-export type CurrentSelections = string[];
-
-export type NearestColorReturn = {
-  distance: number;
-  name: string;
-  rgb: {
-    r: number;
-    b: number;
-    g: number;
-  };
-  value: string;
-};
+export type CurrentSelections = Entities[];

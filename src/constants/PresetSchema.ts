@@ -1,4 +1,6 @@
 import type { PresetSchema } from '../types';
+import { Areas, Entities } from '../types';
+
 const presets: PresetSchema[] = [
   {
     rowCount: 2,
@@ -11,9 +13,10 @@ const presets: PresetSchema[] = [
         // The names in a single command will be batched together automatically.
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
+            names: [Areas.Bedroom],
+            type: 'area',
             on: true,
-            color: 'rgb(128,0,128)', // `color` must be a value that is in CompatibleColors.ts
+            color: [128, 0, 128],
           },
         ],
       },
@@ -24,13 +27,15 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Nanoleaf'],
+            names: [Entities.Lamp1, Entities.Lamp2, Entities.Nanoleaf],
+            type: 'entity',
             on: false,
           },
           {
-            names: ['Underbed'],
+            names: [Entities.Underbed],
+            type: 'entity',
             on: true,
-            color: 'rgb(237,10,63)',
+            color: [255, 0, 0],
           },
         ],
       },
@@ -46,9 +51,11 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
+            names: [Areas.Bedroom],
+            type: 'area',
             on: true,
-            color: 'rgb(255,255,240)',
+            color: [254, 255, 255],
+            // There's a weird bug where if you put the same values the lamps do like a warm color. eww.
           },
         ],
       },
@@ -64,7 +71,8 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2', 'Underbed', 'Nanoleaf'],
+            names: [Areas.Bedroom],
+            type: 'area',
             on: false,
           },
         ],
@@ -81,19 +89,22 @@ const presets: PresetSchema[] = [
         buttonType: 'command',
         commands: [
           {
-            names: ['Lamp 1', 'Lamp 2'],
+            names: [Entities.Lamp1, Entities.Lamp2],
+            type: 'entity',
             on: true,
-            color: 'rgb(128,0,128)',
+            color: [128, 0, 128],
           },
           {
-            names: ['Underbed'],
+            names: [Entities.Underbed],
+            type: 'entity',
             on: true,
-            color: 'rgb(237,10,63)',
+            color: [255, 0, 0],
           },
           {
-            names: ['Nanoleaf'],
+            names: [Entities.Nanoleaf],
+            type: 'entity',
             on: true,
-            color: 'rgb(58,166,85)',
+            color: [0, 255, 0],
           },
         ],
       },

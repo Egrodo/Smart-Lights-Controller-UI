@@ -1,8 +1,7 @@
 <script lang="ts">
   import Spinner from '../assets/LoaderIcon.svelte';
   import genBackgroundString from '../helpers/genBackgroundString';
-  import commandHandler from '../helpers/commandHandler';
-  import composeCommands from '../helpers/composeCommands';
+  import sendCommands from '../helpers/sendCommands';
   import { DeviceState, IsLoadingLock } from '../stores';
   import type { PresetSchema, PresetCommands, ComposedCommands, Device } from '../types';
 
@@ -16,8 +15,7 @@
       return obj;
     }
 
-    const formattedCommands = composeCommands(row.commands);
-    obj[row.title] = { rawCommands: row.commands, formattedCommands };
+    obj[row.title] = row.commands;
 
     return obj;
   }, {});
@@ -42,8 +40,8 @@
       $IsLoadingLock = true;
       loadingBlockName = title;
 
-      await commandHandler(...commands.formattedCommands);
-      updateState(commands.rawCommands);
+      await sendCommands(...commands);
+      updateState(commands);
       isLoadingLocal = false;
       $IsLoadingLock = false;
     } else if (buttonType === 'navigation') {
@@ -61,6 +59,7 @@
       if (modified) {
         newDevices.push({
           name: device.name,
+          friendlyName: device.friendlyName,
           on: modified.on,
           color: modified.color || device.color,
           brightness: device.brightness,

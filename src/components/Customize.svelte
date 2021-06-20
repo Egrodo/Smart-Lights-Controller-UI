@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { DeviceState, CurrentSelections, NearestColorFn } from '../stores';
-  import commandHandler from '../helpers/commandHandler';
-  import delay from '../helpers/delay';
+  import { DeviceState, CurrentSelections } from '../stores';
 
+  import sendCommands from '../helpers/sendCommands';
   import DeviceBlock from './DeviceBlock.svelte';
   import ColorPickerBlock from './ColorPickerBlock.svelte';
   import ColorPreviewBlock from './ColorPreviewBlock.svelte';
   import ButtonBlock from './ButtonBlock.svelte';
   import BrightnessBlock from './BrightnessBlock.svelte';
 
-  import type { Device, NearestColorReturn, DeviceState as DeviceStateType, Pages } from '../types';
+  import type { Device, DeviceState as DeviceStateType, Pages } from '../types';
+  import {Entities, Areas} from '../types';
   import { onMount } from 'svelte';
 
   export let changePage: (newPage: Pages) => void;
@@ -51,23 +51,21 @@
     });
 
     if (deviceOn) {
-      await commandHandler(`Turn off ${name}`);
+      await sendCommands({
+        names: [Areas.Bedroom],
+        type: 'area',
+        on: false,
+      });
     } else {
-      await commandHandler(`Turn on ${name}`);
+      await sendCommands({
+        names: [Areas.Bedroom],
+        type: 'area',
+        on: true,
+      });   
     }
   }
 
-  // Default to ivory
-  let selectedColor: NearestColorReturn = {
-    distance: 0,
-    name: 'Ivory',
-    rgb: {
-      r: 255,
-      g: 255,
-      b: 240,
-    },
-    value: 'rgb(255, 255, 240)',
-  };
+  let selectedColor: [number, number, number] = [255, 255, 240]; // Default to ivory.
 
   let selectedColorChanged: boolean = false;
 
@@ -75,10 +73,9 @@
   // Keeps track of if this attribute has changed since the user last submitted/navigated here
   let brightnessChanged: boolean = false;
   
-  function setSelectedColor(pickedColor: string): void {
+  function setSelectedColor(red: number, green: number, blue: number): void {
     // Find the nearest color to pickedColor in CompatibleColors
-    const nearestColor: NearestColorReturn = $NearestColorFn(pickedColor);
-    selectedColor = nearestColor;
+    selectedColor = [red, green, blue];
     selectedColorChanged = true;
   }
 
@@ -161,7 +158,7 @@
           command += ' and';
         }
       });
-      command += ` to ${selectedColor.name}`;
+      command += ` to ${selectedColor}`;
       await commandHandler(command);
     }
 
@@ -173,7 +170,7 @@
 
     $DeviceState.devices.forEach((device) => {
       if ($CurrentSelections.includes(device.name)) {
-        device.color = selectedColor.value;
+        device.color = selectedColor;
       }
       deviceStateCopy.devices.push(device);
     });
@@ -234,7 +231,8 @@
   </div>
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
-    <ColorPreviewBlock selectedColor={selectedColor.value} />
+    <ColorPreviewBlock selectedColor={selectedColor} /> 
+    <!-- TODO: Handle the unchanged case where you don't want to show a color here yet. -->
     <BrightnessBlock {setBrightness} initialBrightness={brightness} />
     <ButtonBlock
       bgColor="rgb(245, 57, 96)"

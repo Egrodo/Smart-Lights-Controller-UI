@@ -3,9 +3,10 @@
   import Spinner from "../assets/LoaderIcon.svelte";
   import shouldDisplayBlackText from "../helpers/shouldDisplayBlackText";
   import type { Device } from "../types";
+  import {Entities, Areas} from '../types';
 
-  export let handleSelect: (name: string) => void;
-  export let powerToggle: (name: string) => Promise<void>;
+  export let handleSelect: (device: Entities) => void;
+  export let powerToggle: (device: Entities) => Promise<void>;
   export let selected: boolean;
   export let device: Device;
 

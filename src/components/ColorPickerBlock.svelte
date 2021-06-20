@@ -33,7 +33,7 @@
     const red = imgData?.data[0];
     const green = imgData?.data[1];
     const blue = imgData?.data[2];
-    debouncedSetSelectedColor(`rgb(${red}, ${green}, ${blue})`);
+    debouncedSetSelectedColor(red, green, blue);
   };
 
   const canvasTouchMoveListener = (e: TouchEvent) => {
@@ -49,7 +49,7 @@
     const red = imgData?.data[0];
     const green = imgData?.data[1];
     const blue = imgData?.data[2];
-    debouncedSetSelectedColor(`rgb(${red}, ${green}, ${blue})`);
+    debouncedSetSelectedColor(red, green, blue);
   };
 
   onMount(() => {

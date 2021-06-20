@@ -1,7 +1,9 @@
 <script lang="ts">
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
-  export let selectedColor: string = 'rgb(255, 255, 255)';
+  export let selectedColor: [number, number, number] = [255, 255, 255];
+
+  const [red, green, blue] = selectedColor;
 </script>
 
 <style>
@@ -23,7 +25,7 @@
   }
 </style>
 
-<div class="ColorPreviewBlock" style="background: {selectedColor}">
+<div class="ColorPreviewBlock" style="background: rgb({red}, {green}, {blue})}">
   <h1 style="color: {selectedColor && !shouldDisplayBlackText(selectedColor) ? 'white' : 'black'}">
     {selectedColor ? 'Selected Color' : 'Select a Color to Preview'}
   </h1>

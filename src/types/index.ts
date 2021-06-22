@@ -61,4 +61,4 @@ export type DeviceState = {
 
 // For use in a global store that keeps track of which devices are selected for modification at any given time
 // An array of device names
-export type CurrentSelections = Entities[];
+export type CurrentSelections = string[];

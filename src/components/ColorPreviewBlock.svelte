@@ -4,6 +4,7 @@
   export let selectedColor: [number, number, number] = [255, 255, 255];
 
   const [red, green, blue] = selectedColor;
+  console.log(selectedColor);
 </script>
 
 <style>

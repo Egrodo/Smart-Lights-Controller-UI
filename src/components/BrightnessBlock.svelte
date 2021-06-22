@@ -129,5 +129,5 @@
     on:touchstart={touchDownOnMover}
     style="width: {MOVER_WIDTH}px; left: {moverDistance}px" />
 
-  <h1 style="color: {!shouldDisplayBlackText(`rgb(${r},${g},${b})`) ? 'white' : 'black'}">Brightness</h1>
+  <h1 style="color: {!shouldDisplayBlackText([r, g, b]) ? 'white' : 'black'}">Brightness</h1>
 </div>

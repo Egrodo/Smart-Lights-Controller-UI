@@ -11,7 +11,7 @@
   export let device: Device;
 
   // Get preset name, current color, on/off status.
-  $: device_name = device.name;
+  $: device_name = device.friendlyName;
   $: device_on = device.on;
   $: device_color = device.color;
 

@@ -3,7 +3,7 @@
   import Router from "../components/Router.svelte";
   import type { Pages } from "../types";
 
-  const initPage: Pages = "customize";
+  const initPage: Pages = "main";
 
   // Think about how to control nanoleafs more granuarily using scenes "ok google activate <scene_name>"
 

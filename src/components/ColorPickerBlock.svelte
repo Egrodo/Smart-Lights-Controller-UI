@@ -1,9 +1,9 @@
 <script lang="ts">
-  import {  onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import throttle from '../helpers/throttle';
+  import ColorPickerImgSrc from '../assets/ColorPicker.png';
 
   export let setSelectedColor: Function;
-  const ColorPickerImgSrc = `src/assets/ColorPicker.png`;
   let pickerImg;
 
   let canvas: HTMLCanvasElement;

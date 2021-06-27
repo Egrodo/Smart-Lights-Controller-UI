@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import {  onMount } from 'svelte';
   import throttle from '../helpers/throttle';
 
   export let setSelectedColor: Function;
-
-  const ColorPickerImgSrc = '../assets/ColorPicker.png';
-  const pickerImg = new Image();
-  pickerImg.src = ColorPickerImgSrc;
+  const ColorPickerImgSrc = `src/assets/ColorPicker.png`;
+  let pickerImg;
 
   let canvas: HTMLCanvasElement;
   let context: CanvasRenderingContext2D | null;
@@ -53,16 +51,19 @@
   };
 
   onMount(() => {
+    pickerImg = new window.Image();
+    pickerImg.src = ColorPickerImgSrc;
     pickerImg.addEventListener('load', onImageLoad);
     canvas.addEventListener('click', canvasClickListener);
     canvas.addEventListener('touchmove', canvasTouchMoveListener);
+
+    return () => {
+      pickerImg.removeEventListener('load', onImageLoad);
+      canvas.removeEventListener('click', canvasClickListener);
+      canvas.removeEventListener('touchmove', canvasTouchMoveListener);
+    }
   });
 
-  onDestroy(() => {
-    pickerImg.removeEventListener('load', onImageLoad);
-    canvas.removeEventListener('click', canvasClickListener);
-    canvas.removeEventListener('touchmove', canvasTouchMoveListener);
-  });
 </script>
 
 <style>

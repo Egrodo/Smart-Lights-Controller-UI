@@ -1,6 +1,4 @@
-/node_modules/
-/src/constants/index.ts
-/public/build/
-/out/
-
 .DS_Store
+node_modules
+/.svelte-kit
+/package

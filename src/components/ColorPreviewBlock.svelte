@@ -2,9 +2,9 @@
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
   export let selectedColor: [number, number, number] = [255, 255, 255];
+  export let hasChanged: boolean = false;
 
-  const [red, green, blue] = selectedColor;
-  console.log(selectedColor);
+  let [ red, green, blue ] = selectedColor;
 </script>
 
 <style>
@@ -26,8 +26,8 @@
   }
 </style>
 
-<div class="ColorPreviewBlock" style="background: rgb({red}, {green}, {blue})}">
+<div class="ColorPreviewBlock" style="background: rgb({selectedColor[0]}, {selectedColor[1]}, {selectedColor[2]})">
   <h1 style="color: {selectedColor && !shouldDisplayBlackText(selectedColor) ? 'white' : 'black'}">
-    {selectedColor ? 'Selected Color' : 'Select a Color to Preview'}
+    {hasChanged ? 'Selected Color' : 'Select a Color to Preview'}
   </h1>
 </div>

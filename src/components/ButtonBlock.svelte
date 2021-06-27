@@ -3,7 +3,7 @@
   import Spinner from '../assets/LoaderIcon.svelte';
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
-  export let bgColor: string = 'rgb(255, 255, 240)';
+  export let bgColor: [number, number, number] = [255, 255, 240];
   export let text: string = 'Button';
   export let customStyle: string = '';
 
@@ -36,7 +36,7 @@
 <div
   class="ButtonBlock"
   on:click={onClickWrapper}
-  style="background: {bgColor}; color: {shouldDisplayBlackText(bgColor) ? 'black' : 'white'}; {customStyle}">
+  style="background: rgb({bgColor[0]}, {bgColor[1]}, {bgColor[2]});; color: {shouldDisplayBlackText(bgColor) ? 'black' : 'white'}; {customStyle}">
   {#if isLoadingLocal === true}
     <Spinner width="50px" fill="white" />
   {:else}{text}{/if}

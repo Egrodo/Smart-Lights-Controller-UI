@@ -4,6 +4,8 @@ import type { Areas, Command, Entities, FormBody } from '../types';
 export default async function sendCommands(...commands: Command[]) {
   const commandPromises: Promise<Response>[] = [];
   for await (const command of commands) {
+    console.log(`Sending command: `);
+
     command.names.forEach((name, i) => {
       const formBody: FormBody = {};
       let type: 'turn_on' | 'turn_off';
@@ -33,6 +35,8 @@ export default async function sendCommands(...commands: Command[]) {
           formBody.entity_id = name as Entities;
         }
       }
+
+      console.table(formBody);
 
       const url = `${SERVER_URL}/api/services/homeassistant/${type}`;
       const promise = fetch(url, {

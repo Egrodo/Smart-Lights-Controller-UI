@@ -8,18 +8,18 @@
   import ButtonBlock from './ButtonBlock.svelte';
   import BrightnessBlock from './BrightnessBlock.svelte';
 
-  import type { Device, DeviceState as DeviceStateType, Pages } from '../types';
-  import {Entities, Areas} from '../types';
+  import type { Command, Device, DeviceState as DeviceStateType, Pages } from '../types';
+  import type { Entities } from '../types';
   import { onMount } from 'svelte';
 
   export let changePage: (newPage: Pages) => void;
 
-  function handleSelect(name: string): void {
-    const index = $CurrentSelections.indexOf(name);
+  function handleSelect(entity: Entities): void {
+    const index = $CurrentSelections.indexOf(entity);
 
     // If it's not in the array, add it.
     if (index === -1) {
-      $CurrentSelections = [...$CurrentSelections, name];
+      $CurrentSelections = [...$CurrentSelections, entity];
     } else {
       // Otherwise remove it.
       const tempArr = [...$CurrentSelections];
@@ -32,7 +32,7 @@
     $CurrentSelections = [];
   }
 
-  async function powerToggle(name: string): Promise<void> {
+  async function powerToggle(name: Entities): Promise<void> {
     let deviceOn;
 
     DeviceState.update((prevState) => {
@@ -52,14 +52,14 @@
 
     if (deviceOn) {
       await sendCommands({
-        names: [Areas.Bedroom],
-        type: 'area',
+        names: [name],
+        type: 'entity',
         on: false,
       });
     } else {
       await sendCommands({
-        names: [Areas.Bedroom],
-        type: 'area',
+        names: [name],
+        type: 'entity',
         on: true,
       });   
     }
@@ -83,6 +83,8 @@
     brightness = brightnessPercent;
     brightnessChanged = true;
   }
+  // TODO: Just checking if the brightness was changed *this* time isn't reliable
+  // because it doesn't take into account previous brightness changes. It shouldn't always default to 1.
 
   async function submitChanges(): Promise<void> {
     // Apply selectedColor and brightness to CurrentSelections and modify the DeviceState
@@ -92,75 +94,23 @@
       return; // nothing to do
     }
 
-    // TODO: Just checking if the brightness was changed *this* time isn't reliable
-    // because it doesn't take into account previous brightness changes. It shouldn't always default to 1.
-
-    if (brightnessChanged) {
-      await submitBrightnessChanges();
-    }
-    if (selectedColorChanged) {
-      await submitColorChanges();
-    }
-  }
-
-  async function submitBrightnessChanges(): Promise<void> {
-    const applicableDevices: string[] = [];
-    for await (const selectedDevice of $CurrentSelections) {
+    const applicableDevices: Entities[] = [];
+    for (const selectedDevice of $CurrentSelections) {
       applicableDevices.push(selectedDevice);
     }
 
     // At least one device will always be applicable because of the $CurrentSelections check in submitChanges
-    if (applicableDevices.length === 1) {
-      await commandHandler(`Set ${applicableDevices[0]} to ${Math.round(brightness)}%`);
-    } else {
-      let command = 'Set';
-      applicableDevices.forEach((device, i) => {
-        command += ` ${device}`;
-        if (applicableDevices.length - 1 !== i) {
-          command += ' and';
-        }
-      });
-      command += ` to ${Math.round(brightness)}%`;
-      await commandHandler(command);
-    }
-
-    // Update the store
-    const deviceStateCopy: DeviceStateType = {
-      devicesConnected: $DeviceState.devicesConnected,
-      devices: [],
+    const changes: Command = {
+      names: [...applicableDevices],
+      type: 'entity',
+      on: true,
     };
 
-    $DeviceState.devices.forEach((device) => {
-      if ($CurrentSelections.includes(device.name)) {
-        device.brightness = brightness;
-      }
-      deviceStateCopy.devices.push(device);
-    });
+    if (selectedColorChanged) changes.color = selectedColor;
+    if (brightnessChanged) changes.brightness = brightness;
 
-    $DeviceState = deviceStateCopy;
-  }
-
-  // Send commands to lights to do the needful
-  async function submitColorChanges(): Promise<void> {
-    const applicableDevices: string[] = [];
-    for await (const selectedDevice of $CurrentSelections) {
-      applicableDevices.push(selectedDevice);
-    }
-
-    // At least one device will always be applicable because of the $CurrentSelections check in submitChanges
-    if (applicableDevices.length === 1) {
-      await commandHandler(`Set ${applicableDevices[0]} to ${selectedColor.name}`);
-    } else {
-      let command = 'Set';
-      applicableDevices.forEach((device, i) => {
-        command += ` ${device}`;
-        if (applicableDevices.length - 1 !== i) {
-          command += ' and';
-        }
-      });
-      command += ` to ${selectedColor}`;
-      await commandHandler(command);
-    }
+    await sendCommands(changes);
+  
 
     // Update the store
     const deviceStateCopy: DeviceStateType = {
@@ -176,6 +126,7 @@
     });
 
     $DeviceState = deviceStateCopy;
+    
   }
 
   function goBack() {
@@ -184,21 +135,21 @@
   }
 
   // On mount start a timer that listens for any touches and if none are detected for 60s change back to home page.
-  onMount(() => {
-    let lastInteracted = Date.now();
-    function restartTimer() {
-      lastInteracted = Date.now();
-    }
-    document.addEventListener('touchstart', restartTimer);
-    const timer = window.setInterval(() => {
-      const currTime = Date.now();
-      if (currTime - lastInteracted > 60 * 1000) {
-        document.removeEventListener('touchstart', restartTimer);
-        window.clearInterval(timer);
-        goBack();
-      }
-    }, 5000)
-  });
+  // onMount(() => {
+  //   let lastInteracted = Date.now();
+  //   function restartTimer() {
+  //     lastInteracted = Date.now();
+  //   }
+  //   document.addEventListener('touchstart', restartTimer);
+  //   const timer = window.setInterval(() => {
+  //     const currTime = Date.now();
+  //     if (currTime - lastInteracted > 60 * 1000) {
+  //       document.removeEventListener('touchstart', restartTimer);
+  //       window.clearInterval(timer);
+  //       goBack();
+  //     }
+  //   }, 5000)
+  // });
 </script>
 
 <style>
@@ -231,14 +182,14 @@
   </div>
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
-    <ColorPreviewBlock selectedColor={selectedColor} /> 
+    <ColorPreviewBlock selectedColor={selectedColor} hasChanged={selectedColorChanged} /> 
     <!-- TODO: Handle the unchanged case where you don't want to show a color here yet. -->
     <BrightnessBlock {setBrightness} initialBrightness={brightness} />
     <ButtonBlock
-      bgColor="rgb(245, 57, 96)"
+      bgColor={[245, 57, 96]}
       text="Back"
       onClick={goBack}
       customStyle="border-right: 1px solid black" />
-    <ButtonBlock bgColor="rgb(14, 173, 105)" text="Submit" onClick={submitChanges} />
+    <ButtonBlock bgColor={[14, 173, 105]} text="Submit" onClick={submitChanges} />
   </div>
 </main>

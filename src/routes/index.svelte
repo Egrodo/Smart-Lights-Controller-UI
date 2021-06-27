@@ -1,16 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Router from "./components/Router.svelte";
-  import type { Pages } from "./types";
+  import Router from "../components/Router.svelte";
+  import type { Pages } from "../types";
 
-  document.title = "Light Control App";
-  const initPage: Pages = "main";
+  const initPage: Pages = "customize";
 
   // Think about how to control nanoleafs more granuarily using scenes "ok google activate <scene_name>"
 
   // Turn on all lights when starting the application so as to sync the realworld with our initial store.
   // Hopefully this will not happen often as the application should run continuously without restarting.
   onMount(() => {
+    document.title = "Light Control App";
+
     let lastInteracted = Date.now();
     function maybeEatTouch(e: TouchEvent) {
       const currTime = Date.now();
@@ -46,6 +47,11 @@
     width: 800px;
     height: 480px;
     user-select: none;
+  }
+
+  :global(#svelte) {
+    height: 100%;
+    width: 100%;
   }
 
   .App {

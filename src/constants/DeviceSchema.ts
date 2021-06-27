@@ -1,3 +1,4 @@
+import { Entities, Areas } from '../types';
 import type { DeviceState } from '../types';
 
 // Hardcoded initial state. Will need manual updating if devices change.
@@ -5,30 +6,31 @@ const DeviceSchema: DeviceState = {
   devicesConnected: 3,
   devices: [
     {
-      name: 'light.bedroom_lamp_1',
+      name: Entities.Lamp1,
       friendlyName: 'Lamp 1',
       on: true,
-      color: 'rgb(255, 255, 240)',
+      color: [255, 255, 240],
       brightness: 1,
     },
     {
-      name: 'light.bedroom_lamp_2',
+      name: Entities.Lamp2,
       friendlyName: 'Lamp 2',
       on: true,
-      color: 'rgb(255, 255, 240)',
+      color: [255, 255, 240],
       brightness: 1,
     },
-    // {
-    //   name: 'Underbed',
-    //   on: true,
-    //   color: 'rgb(255, 255, 240)',
-    //   brightness: 1,
-    // },
     {
-      name: 'light.nanoleaf_light_panels_5a_5d_b7',
+      name: Entities.Underbed,
+      friendlyName: 'Underbed',
+      on: true,
+      color: [255, 255, 240],
+      brightness: 1,
+    },
+    {
+      name: Entities.Nanoleaf,
       friendlyName: 'Nanoleaf',
       on: true,
-      color: 'rgb(255, 255, 240)',
+      color: [255, 255, 240],
       brightness: 1,
     },
   ],

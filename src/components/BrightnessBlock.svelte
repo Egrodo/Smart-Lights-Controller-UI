@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import {  onMount } from 'svelte';
   import shouldDisplayBlackText from '../helpers/shouldDisplayBlackText';
 
   const MOVER_WIDTH = 5;
@@ -52,12 +52,13 @@
       newDistance = range[1];
     }
 
-    const newPercent = (moverDistance / containerRef.offsetWidth) * 100;
+    const newPercent = (moverDistance / containerRef.offsetWidth);
 
     // Move the mover
     moverDistance = newDistance;
-    updateBgColor(newPercent);
+    updateBgColor(newPercent * 100);
     setBrightness(newPercent);
+    // BUG: TODO: Brightness is not working properly, something to do with going from 0-1?
   }
 
   function updateBgColor(percent: number) {
@@ -82,12 +83,13 @@
     if (initBrigtnessPixels >= containerRef.offsetWidth - MOVER_WIDTH) initBrigtnessPixels -= MOVER_WIDTH;
     moverDistance = initBrigtnessPixels;
     updateBgColor(initialBrightness * 100);
+
+    return () => {
+      document.removeEventListener('touchend', touchUp);
+      document.removeEventListener('touchmove', onMove);
+    }
   });
 
-  onDestroy(() => {
-    document.removeEventListener('touchend', touchUp);
-    document.removeEventListener('touchmove', onMove);
-  });
 </script>
 
 <style>

@@ -3,7 +3,7 @@
   import Spinner from "../assets/LoaderIcon.svelte";
   import shouldDisplayBlackText from "../helpers/shouldDisplayBlackText";
   import type { Device } from "../types";
-  import {Entities, Areas} from '../types';
+  import type { Entities } from '../types';
 
   export let handleSelect: (device: Entities) => void;
   export let powerToggle: (device: Entities) => Promise<void>;
@@ -11,7 +11,8 @@
   export let device: Device;
 
   // Get preset name, current color, on/off status.
-  $: device_name = device.friendlyName;
+  $: device_name = device.name;
+  $: device_friendly_name = device.friendlyName;
   $: device_on = device.on;
   $: device_color = device.color;
 
@@ -78,7 +79,7 @@
     class="topBlock"
     on:click={() => handleSelect(device_name)}
     style="background: {selected ? '#FAFFAE' : 'white'}">
-    <h1>{device_name}</h1>
+    <h1>{device_friendly_name}</h1>
     <h3>{selected ? 'Selected' : 'Select for modification'}</h3>
   </div>
   <div
@@ -91,7 +92,7 @@
   </div>
   <div
     class="currColor"
-    style="background: {device_color}; color: {shouldDisplayBlackText(device_color) ? 'black' : 'white'}">
+    style="background: rgb({device_color[0]}, {device_color[1]}, {device_color[2]}); color: {shouldDisplayBlackText(device_color) ? 'black' : 'white'}">
     Current Color
   </div>
 </main>

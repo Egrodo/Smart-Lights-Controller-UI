@@ -135,21 +135,23 @@
   }
 
   // On mount start a timer that listens for any touches and if none are detected for 60s change back to home page.
-  // onMount(() => {
-  //   let lastInteracted = Date.now();
-  //   function restartTimer() {
-  //     lastInteracted = Date.now();
-  //   }
-  //   document.addEventListener('touchstart', restartTimer);
-  //   const timer = window.setInterval(() => {
-  //     const currTime = Date.now();
-  //     if (currTime - lastInteracted > 60 * 1000) {
-  //       document.removeEventListener('touchstart', restartTimer);
-  //       window.clearInterval(timer);
-  //       goBack();
-  //     }
-  //   }, 5000)
-  // });
+  onMount(() => {
+    let lastInteracted = Date.now();
+    function restartTimer() {
+      lastInteracted = Date.now();
+    }
+    document.addEventListener('touchstart', restartTimer);
+    const timer = window.setInterval(() => {
+      const currTime = Date.now();
+      if ($DeviceState.devices.length === 0) window.location.reload();
+
+      if (currTime - lastInteracted > 60 * 1000) {
+        document.removeEventListener('touchstart', restartTimer);
+        window.clearInterval(timer);
+        goBack();
+      }
+    }, 5000)
+  });
 </script>
 
 <style>

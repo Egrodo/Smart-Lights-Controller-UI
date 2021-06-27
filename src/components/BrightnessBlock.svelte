@@ -39,7 +39,9 @@
   function clickedTrack(e: TouchEvent) {
     const newDistance = e.touches[0].clientX - containerRef.offsetLeft;
     moverDistance = newDistance;
-    updateBgColor((moverDistance / containerRef.offsetWidth) * 100);
+    const newPercent = (moverDistance / containerRef.offsetWidth);
+    updateBgColor(newPercent * 100);
+    setBrightness(newPercent);
     touchDownOnMover();
   }
 

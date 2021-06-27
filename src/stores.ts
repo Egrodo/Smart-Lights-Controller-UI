@@ -1,5 +1,5 @@
 // DeviceState Store
-import { readable, writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 import InitialDeviceState from './constants/DeviceSchema';
 import type { Writable } from 'svelte/types/runtime/store';
 import type { DeviceState as DeviceStateType, CurrentSelections as CurrentSelectionsType } from './types';

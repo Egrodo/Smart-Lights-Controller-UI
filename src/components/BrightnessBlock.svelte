@@ -58,7 +58,6 @@
     moverDistance = newDistance;
     updateBgColor(newPercent * 100);
     setBrightness(newPercent);
-    // BUG: TODO: Brightness is not working properly, something to do with going from 0-1?
   }
 
   function updateBgColor(percent: number) {

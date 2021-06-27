@@ -183,7 +183,6 @@
   <div class="rightHalf">
     <ColorPickerBlock {setSelectedColor} />
     <ColorPreviewBlock selectedColor={selectedColor} hasChanged={selectedColorChanged} /> 
-    <!-- TODO: Handle the unchanged case where you don't want to show a color here yet. -->
     <BrightnessBlock {setBrightness} initialBrightness={brightness} />
     <ButtonBlock
       bgColor={[245, 57, 96]}
